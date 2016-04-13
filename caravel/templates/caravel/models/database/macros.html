@@ -2,22 +2,12 @@
   <script>
     $("#sqlalchemy_uri").parent()
       .append('<button id="testconn" class="btn">Test Connection</button>');
-    $("#testconn").click(function(e) {
-      e.preventDefault();
+    $("#testconn").click(function() {
       var url = "/caravel/testconn";
-
-      var data = {};
-      try{
-        data = JSON.stringify({ uri: $("#sqlalchemy_uri").val(), extras: JSON.parse($("#extra").val()) })
-      } catch(parse_error){
-        alert("Malformed JSON in the extras field: " + parse_error);
-        return false
-      }
-
       $.ajax({
         method: "POST",
         url: url,
-        data: data,
+        data: JSON.stringify({ uri: $("#sqlalchemy_uri").val(), extras: JSON.parse($("#extra").val()) }),
         dataType: 'json',
         contentType: "application/json; charset=utf-8"
       }).done(function(data) {
